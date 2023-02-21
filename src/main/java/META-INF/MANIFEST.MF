@@ -1,0 +1,4 @@
+Manifest-Version: 1.1
+FastChar-Plugin-Version: 1.0.0
+
+
