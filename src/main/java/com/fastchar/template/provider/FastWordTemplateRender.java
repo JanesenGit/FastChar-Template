@@ -1,5 +1,6 @@
 package com.fastchar.template.provider;
 
+import com.fastchar.core.FastChar;
 import com.fastchar.core.FastHandler;
 import com.fastchar.template.FastTemplateHelper;
 import com.fastchar.template.info.FastWordTableInfo;
@@ -28,7 +29,7 @@ import java.util.regex.Pattern;
  */
 public class FastWordTemplateRender implements IFastTemplateRender {
     private static final Pattern PLACE_HOLDER_PATTERN = Pattern.compile("(\\$\\{(.*)})", Pattern.DOTALL);
-    private static final Pattern PLACE_HOLDER_LIST_PATTERN = Pattern.compile("([^${}]*)\\[i]",Pattern.DOTALL);
+    private static final Pattern PLACE_HOLDER_LIST_PATTERN = Pattern.compile("([^${}]*)\\[i]", Pattern.DOTALL);
 
     @Override
     public void onRender(FastHandler handler, InputStream templateInputStream, OutputStream newFileOutStream) {
@@ -44,17 +45,11 @@ public class FastWordTemplateRender implements IFastTemplateRender {
             renderTables(handler, document);
             document.write(newFileOutStream);
         } catch (Exception e) {
-            e.printStackTrace();
+            FastChar.getLogger().error(this.getClass(), e);
         } finally {
-            try {
-                if (document != null) {
-                    document.close();
-                }
-                if (newFileOutStream != null) {
-                    newFileOutStream.close();
-                }
-            } catch (Exception ignored) {
-            }
+            FastFileUtils.closeQuietly(document);
+            FastFileUtils.closeQuietly(templateInputStream);
+            FastFileUtils.closeQuietly(newFileOutStream);
         }
     }
 
@@ -216,7 +211,7 @@ public class FastWordTemplateRender implements IFastTemplateRender {
 
         int rows = wordTableInfo.getValues().size();
         int cols = wordTableInfo.getValues().get(0).size();
-        if (wordTableInfo.getTitles() != null && wordTableInfo.getTitles().size() > 0) {
+        if (wordTableInfo.getTitles() != null && !wordTableInfo.getTitles().isEmpty()) {
             rows += 1;
             cols = wordTableInfo.getTitles().size();
         }

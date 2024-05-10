@@ -2,7 +2,6 @@ package com.fastchar.template.interfaces;
 
 import com.fastchar.core.FastHandler;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -18,6 +17,7 @@ public interface IFastTemplateRender {
      *
      * @param handler             渲染句柄，当code==0时将停止继续执行渲染
      * @param templateInputStream 模板文件的输入流
+     * @param newFileOutStream 渲染后文件的输出流
      */
     void onRender(FastHandler handler, InputStream templateInputStream, OutputStream newFileOutStream);
 

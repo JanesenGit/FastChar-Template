@@ -6,7 +6,7 @@
 
     <groupId>com.fastchar</groupId>
     <artifactId>fastchar-template</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
 
     <build>
         <plugins>
@@ -31,16 +31,17 @@
                             <Build-User>${user.name}</Build-User>
                             <Build-Java>${java.version}</Build-Java>
                             <Build-OS>${os.name}</Build-OS>
-                             <Bundle-Name>${project.artifactId}</Bundle-Name>
-<Bundle-Version>${project.version}</Bundle-Version>
-<Implementation-Title>${project.artifactId}</Implementation-Title>
- <Implementation-Version>${project.version}</Implementation-Version>
+                            <Bundle-Name>${project.artifactId}</Bundle-Name>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Implementation-Title>${project.artifactId}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.5</version>
                 <executions>
@@ -88,7 +89,6 @@
     </build>
 
 
-
     <packaging>jar</packaging>
     <name>FastChar-Template</name>
     <description>
@@ -99,10 +99,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
     </properties>
 
     <licenses>
@@ -128,16 +127,6 @@
 
     <profiles>
         <profile>
-            <id>disable-javadoc-doclint</id>
-            <activation>
-                <jdk>[1.8,)</jdk>
-            </activation>
-            <properties>
-                <javadoc.opts>-Xdoclint:none</javadoc.opts>
-            </properties>
-        </profile>
-
-        <profile>
             <id>release</id>
             <build>
                 <plugins>
@@ -159,14 +148,16 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
+                        <version>3.6.3</version>
                         <configuration>
                             <show>private</show>
                             <nohelp>true</nohelp>
                             <charset>UTF-8</charset>
                             <encoding>UTF-8</encoding>
                             <docencoding>UTF-8</docencoding>
-                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <additionalJOptions>
+                                <additionalJOption>-Xdoclint:none</additionalJOption>
+                            </additionalJOptions>
                         </configuration>
                         <executions>
                             <execution>
@@ -220,7 +211,6 @@
             </distributionManagement>
         </profile>
     </profiles>
-
 
 
     <dependencies>

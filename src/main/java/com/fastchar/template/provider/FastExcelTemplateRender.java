@@ -38,17 +38,10 @@ public class FastExcelTemplateRender implements IFastTemplateRender {
             renderNormal(handler, workbook);
             workbook.write(newFileOutStream);
         } catch (Exception e) {
-            e.printStackTrace();
+            FastChar.getLogger().error(this.getClass(), e);
         } finally {
-            try {
-                if (newFileOutStream != null) {
-                    newFileOutStream.close();
-                }
-                if (workbook != null) {
-                    workbook.close();
-                }
-            } catch (Exception ignored) {
-            }
+            FastFileUtils.closeQuietly(templateInputStream);
+            FastFileUtils.closeQuietly(newFileOutStream);
         }
     }
 
@@ -191,7 +184,7 @@ public class FastExcelTemplateRender implements IFastTemplateRender {
             }
             return cell.getStringCellValue();
         } catch (Exception e) {
-            e.printStackTrace();
+            FastChar.getLogger().error(this.getClass(), e);
         }
         return null;
     }
